@@ -1,355 +1,289 @@
-# 🔗 Blockchain Node — Red de Grados Académicos
+# 🔗 Blockchain Node — Red Distribuida de Grados Académicos
 
 <div align="center">
 
-![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![Flask](https://img.shields.io/badge/Flask-3.x-000000?style=for-the-badge&logo=flask&logoColor=white)
-![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
-![Swagger](https://img.shields.io/badge/Swagger-OpenAPI-85EA2D?style=for-the-badge&logo=swagger&logoColor=black)
+![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge\&logo=python\&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-3.x-000000?style=for-the-badge\&logo=flask\&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?style=for-the-badge\&logo=supabase\&logoColor=white)
+![Swagger](https://img.shields.io/badge/API-OpenAPI%203.0-85EA2D?style=for-the-badge\&logo=swagger\&logoColor=black)
 
-*Nodo independiente de una red blockchain distribuida para la gestión y validación de grados académicos.*
+### ⚡ Nodo blockchain autónomo para validación de grados académicos
+
+Sistema distribuido que permite registrar, validar y verificar grados académicos utilizando principios de **blockchain**, con comunicación entre nodos independientes.
 
 </div>
 
 ---
 
-## 📋 Tabla de Contenidos
+## 🚀 Características
 
-- [🏗 Arquitectura](#-arquitectura)
-- [🛠 Tecnologías](#-tecnologías)
-- [✅ Requisitos Previos](#-requisitos-previos)
-- [🚀 Instalación](#-instalación)
-- [⚙️ Configuración](#️-configuración)
-- [🗄 Base de Datos](#-base-de-datos)
-- [▶️ Ejecución](#️-ejecución)
-- [📡 API Endpoints](#-api-endpoints)
-- [⛓ Lógica Blockchain](#-lógica-blockchain)
-- [🗺 Fases del Proyecto](#-fases-del-proyecto)
-- [📁 Estructura del Proyecto](#-estructura-del-proyecto)
-- [👤 Autor](#-autor)
+* 🔗 Red blockchain distribuida entre múltiples nodos
+* 🔐 Integridad de datos mediante **hash SHA-256**
+* ⛏ Sistema de **Proof of Work (PoW)**
+* 🤝 Algoritmo de consenso (**Longest Chain Rule**)
+* 🌐 Comunicación entre nodos vía HTTP (REST)
+* 📡 API documentada con **Swagger / OpenAPI**
+* 🗄 Persistencia en **Supabase (PostgreSQL)**
 
 ---
 
-## 🏗 Arquitectura
+## 🏗 Arquitectura del Sistema
 
+```
      ┌─────────────────┐
      │   NODO MARIANO  │  :8001
      │   (Flask API)   │
      └────────┬────────┘
-              │  Comunica y propaga
+              │  Propaga datos
     ┌─────────┼──────────┐
     ▼         ▼          ▼
 
    Nodo :8002  Nodo :8003  Nodo :XXXX
    (Laravel)  (Next.js)   (Express)
-   Todos conectados a su propia instancia de Supabase
 
-> Cada nodo es **autónomo e independiente**. La red sigue funcionando aunque uno o más nodos fallen.
+Cada nodo:
+✔ Es independiente
+✔ Tiene su propia base de datos
+✔ Mantiene su propia copia de la blockchain
+```
 
----
-
-## 🛠 Tecnologías
-
-| Capa | Tecnología |
-|:---|:---|
-| Backend | Python 3.11+ / Flask 3.x |
-| Base de Datos | Supabase (PostgreSQL) |
-| Proof of Work | SHA-256 |
-| Documentación | Swagger UI / OpenAPI 3.0 |
-| Comunicación | HTTP REST (requests) |
-| Variables de Entorno | python-dotenv |
+> 💡 La red continúa funcionando incluso si uno o varios nodos fallan.
 
 ---
 
-## ✅ Requisitos Previos
+## 🛠 Stack Tecnológico
 
-- Python **3.11+**
-- `pip` / `venv`
-- Cuenta en [Supabase](https://supabase.com)
-- GCC instalado (para compilar dependencias nativas)
+| Capa          | Tecnología              |
+| :------------ | :---------------------- |
+| Backend       | Python 3.11 + Flask     |
+| Base de Datos | Supabase (PostgreSQL)   |
+| Blockchain    | SHA-256 + Proof of Work |
+| API           | REST + Swagger          |
+| Comunicación  | requests                |
+| Configuración | python-dotenv           |
 
+---
+
+## ✅ Requisitos
+
+* Python 3.11+
+* pip + venv
+* Cuenta en Supabase
+* Compilador C (para dependencias)
+
+```bash
 # Fedora / RHEL
 sudo dnf install gcc gcc-c++ python3-devel make -y
 
 # Ubuntu / Debian
 sudo apt install build-essential python3-dev -y
+```
 
+---
 
-🚀 Instalación
-# 1. Clonar el repositorio
+## ⚙️ Instalación
+
+```bash
 git clone https://github.com/msleazy/blockchain-node.git
 cd blockchain-node
 
-# 2. Crear y activar entorno virtual
 python3 -m venv venv
 source venv/bin/activate        # Linux / macOS
 # venv\Scripts\activate         # Windows
 
-# 3. Instalar dependencias
 pip install -r requirements.txt
+```
 
+---
 
-⚙️ Configuración
-Crea un archivo .env en la raíz del proyecto con tus credenciales:
-# Supabase (Project Settings → API)
-SUPABASE_URL=https://xxxxxxxxxxxx.supabase.co
-SUPABASE_KEY=tu_anon_key_aqui
+## 🔧 Configuración
 
-# Identidad de este nodo
+Crear archivo `.env`:
+
+```env
+SUPABASE_URL=https://xxxxxxxx.supabase.co
+SUPABASE_KEY=tu_key
+
 NODE_ID=nodo-mariano
 NODE_PORT=8001
+```
 
+> ⚠️ Nunca subas este archivo a GitHub.
 
-⚠️ Nunca subas el .env a GitHub. Ya está incluido en el .gitignore.
+---
 
+## 🗄 Base de Datos
 
-🗄 Base de Datos
-Ejecuta el siguiente SQL completo en el SQL Editor de Supabase:
--- ─────────────────────────────────────────
--- TABLAS DE CATÁLOGO
--- ─────────────────────────────────────────
+Ejecuta el script SQL en Supabase para crear:
 
-CREATE TABLE personas (
-    id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    nombre          VARCHAR(100) NOT NULL,
-    apellido_paterno VARCHAR(100) NOT NULL,
-    apellido_materno VARCHAR(100),
-    curp            VARCHAR(18) UNIQUE,
-    correo          VARCHAR(150),
-    creado_en       TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+* Personas
+* Instituciones
+* Programas
+* Grados (Blockchain)
+* Nodos
+* Transacciones pendientes
 
-CREATE TABLE instituciones (
-    id        UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    nombre    VARCHAR(255) NOT NULL,
-    pais      VARCHAR(100),
-    estado    VARCHAR(100),
-    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+👉 Incluye campos blockchain como:
 
-CREATE TABLE niveles_grado (
-    id     SERIAL PRIMARY KEY,
-    nombre VARCHAR(50) NOT NULL
-);
+* `hash_actual`
+* `hash_anterior`
+* `nonce`
 
-INSERT INTO niveles_grado (nombre) VALUES
-    ('Técnico'), ('Licenciatura'), ('Maestría'),
-    ('Doctorado'), ('Especialidad');
+---
 
-CREATE TABLE programas (
-    id             UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    nombre         VARCHAR(255) NOT NULL,
-    nivel_grado_id INT REFERENCES niveles_grado(id),
-    creado_en      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+## ▶️ Ejecución
 
--- ─────────────────────────────────────────
--- TABLA PRINCIPAL — BLOQUES BLOCKCHAIN
--- ─────────────────────────────────────────
-
-CREATE TABLE grados (
-    id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    persona_id      UUID REFERENCES personas(id) ON DELETE CASCADE,
-    institucion_id  UUID REFERENCES instituciones(id),
-    programa_id     UUID REFERENCES programas(id),
-    fecha_inicio    DATE,
-    fecha_fin       DATE,
-    titulo_obtenido VARCHAR(255),
-    numero_cedula   VARCHAR(50),
-    titulo_tesis    TEXT,
-    menciones       VARCHAR(100),
-    -- Campos blockchain
-    hash_actual     TEXT NOT NULL,
-    hash_anterior   TEXT,
-    nonce           INTEGER,
-    firmado_por     VARCHAR(255),
-    creado_en       TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- ─────────────────────────────────────────
--- TABLAS DE RED
--- ─────────────────────────────────────────
-
-CREATE TABLE nodos (
-    id            SERIAL PRIMARY KEY,
-    url           VARCHAR(255) UNIQUE NOT NULL,
-    registrado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE transacciones_pendientes (
-    id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    persona_id      UUID,
-    institucion_id  UUID,
-    programa_id     UUID,
-    fecha_inicio    DATE,
-    fecha_fin       DATE,
-    titulo_obtenido VARCHAR(255),
-    numero_cedula   VARCHAR(50),
-    titulo_tesis    TEXT,
-    menciones       VARCHAR(100),
-    creado_en       TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-
-▶️ Ejecución
-# 1. Activar entorno virtual
+```bash
 source venv/bin/activate
-
-# 2. Iniciar el nodo
 python run.py
+```
 
-Salida esperada en consola:
+Salida esperada:
+
+```
 ╔══════════════════════════════════════╗
 ║   🔗 Blockchain Node iniciado        ║
 ║   ID:     nodo-mariano               ║
 ║   Puerto: 8001                       ║
 ║   Docs:   http://localhost:8001/docs ║
 ╚══════════════════════════════════════╝
+```
 
-📖 Documentación Swagger disponible en: http://localhost:8001/docs
+---
 
-📡 API Endpoints
+## 📡 API Endpoints
 
+| Método | Endpoint        | Descripción         |
+| :----- | :-------------- | :------------------ |
+| GET    | /health         | Estado del nodo     |
+| GET    | /chain          | Blockchain completa |
+| POST   | /transactions   | Nueva transacción   |
+| POST   | /mine           | Minar bloque        |
+| POST   | /blocks/receive | Recibir bloque      |
+| POST   | /nodes/register | Registrar nodo      |
+| GET    | /nodes          | Listar nodos        |
+| GET    | /nodes/resolve  | Consenso            |
+| GET    | /docs           | Swagger UI          |
 
+---
 
-Método
-Endpoint
-Descripción
+## 🧪 Ejemplo de Uso
 
-
-
-GET
-/health
-Estado del nodo
-
-
-GET
-/chain
-Retorna la cadena completa
-
-
-POST
-/transactions
-Crear transacción y propagarla
-
-
-POST
-/mine
-Minar bloque y propagarlo
-
-
-POST
-/blocks/receive
-Recibir bloque de otro nodo
-
-
-POST
-/nodes/register
-Registrar un nodo en la red
-
-
-GET
-/nodes
-Listar nodos registrados
-
-
-GET
-/nodes/resolve
-Ejecutar algoritmo de consenso
-
-
-GET
-/docs
-Swagger UI
-
-
-🧪 Ejemplos de uso con cURL
-# ── Health check ───────────────────────────────────────
+```bash
+# Health check
 curl http://localhost:8001/health
 
-# ── Ver la cadena completa ─────────────────────────────
-curl http://localhost:8001/chain
-
-# ── Crear una transacción ──────────────────────────────
+# Crear transacción
 curl -X POST http://localhost:8001/transactions \
-  -H "Content-Type: application/json" \
-  -d '{
-    "persona_id":      "uuid-persona",
-    "institucion_id":  "uuid-institucion",
-    "programa_id":     "uuid-programa",
-    "titulo_obtenido": "Ingeniero en Sistemas",
-    "fecha_fin":       "2024-06-01"
-  }'
+-H "Content-Type: application/json" \
+-d '{
+  "persona_id": "uuid",
+  "institucion_id": "uuid",
+  "programa_id": "uuid",
+  "titulo_obtenido": "Ingeniero en Sistemas",
+  "fecha_fin": "2024-06-01"
+}'
+```
 
-# ── Minar un bloque ────────────────────────────────────
-curl -X POST http://localhost:8001/mine
+---
 
-# ── Registrar otro nodo ────────────────────────────────
-curl -X POST http://localhost:8001/nodes/register \
-  -H "Content-Type: application/json" \
-  -d '{"url": "http://localhost:8002"}'
+## ⛓ Cómo Funciona la Blockchain
 
-# ── Resolver conflictos (consenso) ─────────────────────
-curl http://localhost:8001/nodes/resolve
+### 🔐 Hash
 
+Cada bloque genera un hash único:
 
-⛓ Lógica Blockchain
-🔐 Cálculo del Hash
-Cada bloque genera su huella digital con SHA-256 concatenando sus campos clave:
-hash_actual = SHA256(
-    persona_id      +
-    institucion_id  +
-    titulo_obtenido +
-    fecha_fin       +
-    hash_anterior   +
-    nonce
+```
+SHA256(
+  persona_id +
+  institucion_id +
+  titulo +
+  fecha +
+  hash_anterior +
+  nonce
 )
+```
 
-⛏ Proof of Work
-El nonce se incrementa hasta encontrar un hash que cumpla la dificultad establecida:
+---
+
+### ⛏ Proof of Work
+
+```
 DIFFICULTY = "000"
 
-while not hash_resultado.startswith(DIFFICULTY):
-    nonce += 1
-    hash_resultado = calcular_hash(..., nonce)
+while hash no cumple:
+    nonce++
+```
 
-🤝 Algoritmo de Consenso — Longest Chain Rule
-Cuando dos nodos minan simultáneamente, GET /nodes/resolve consulta
-todos los nodos registrados y adopta la cadena válida más larga:
-Nodo A: [G] → [B1] → [B2] → [B3]   ✅ GANA (longitud 4)
-Nodo B: [G] → [B1] → [B2]           ❌ Reemplazada
+---
 
+### 🤝 Consenso
 
-🗺 Fases del Proyecto
+Se adopta la cadena más larga válida:
 
- Fase 1 — Setup: API funcional en puerto :8001
- Fase 2 — Registro: Endpoints de comunicación inter-nodos
- Fase 3 — Pruebas de Red: Propagación de transacciones y bloques
- Fase 4 — Consenso: Resolución de conflictos distribuida
+```
+Nodo A: [G] → [B1] → [B2] → [B3]   ✅
+Nodo B: [G] → [B1] → [B2]           ❌
+```
 
+---
 
-📁 Estructura del Proyecto
+## 🗺 Roadmap
+
+* ✅ Fase 1 — Nodo funcional
+* ✅ Fase 2 — Comunicación entre nodos
+* 🔄 Fase 3 — Propagación en red
+* 🔄 Fase 4 — Consenso distribuido
+
+---
+
+## 📁 Estructura del Proyecto
+
+```
 blockchain-node/
 ├── app/
-│   ├── __init__.py          # Factory de la app Flask
-│   ├── blockchain.py        # Lógica core (hash, PoW, consenso)
-│   ├── database.py          # Cliente Supabase
+│   ├── __init__.py
+│   ├── blockchain.py
+│   ├── database.py
 │   └── routes/
-│       ├── __init__.py
-│       ├── chain.py         # GET  /chain
-│       ├── transactions.py  # POST /transactions
-│       ├── mine.py          # POST /mine
-│       └── nodes.py         # POST /nodes/register | GET /nodes/resolve
-├── .env                     # Variables de entorno (⚠️ no commitear)
-├── .gitignore
-├── openapi.yaml             # Especificación OpenAPI / Swagger
+│       ├── chain.py
+│       ├── transactions.py
+│       ├── mine.py
+│       └── nodes.py
+├── .env
+├── openapi.yaml
 ├── requirements.txt
-└── run.py                   # Entry point
+└── run.py
+```
 
+---
 
-👤 Autor
-Mariano — Nodo independiente dentro de la Red Blockchain📚 Materia: Tópicos Avanzados de Desarrollo Web y Móvil
+## 👨‍💻 Autor
 
+**Mariano Morales**
+💻 Desarrollador | Blockchain & Backend
 
+📚 *Tópicos Avanzados de Desarrollo Web y Móvil*
 
-🔒 Este nodo es autónomo. La red continúa operando aunque este nodo esté offline.
+---
+
+## 🧠 Reflexión
+
+Este proyecto demuestra cómo aplicar conceptos de blockchain en un entorno real:
+
+* Sistemas distribuidos
+* Consistencia eventual
+* Seguridad de datos
+* Arquitectura desacoplada
+
+---
+
+## 🔒 Nota Final
+
+> Este nodo es completamente autónomo.
+> La red sigue operando incluso si este nodo deja de estar disponible.
+
+---
+
+⭐ Si te gusta el proyecto, dale una estrella en GitHub.
+
